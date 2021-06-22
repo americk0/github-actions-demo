@@ -1,4 +1,4 @@
-import { sayHello } from '.';
+import { sayHello } from './index.js';
 
 const r = sayHello();
 

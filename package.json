@@ -1,5 +1,5 @@
 {
-  "name": "@americk0/github-actions-test",
+  "name": "@fogilov440/github-actions-test",
   "version": "1.0.0",
   "type": "module",
   "description": "",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/americk0/github-actions-demo.git"
   },
-  "author": "",
+  "author": "Ben Watson <ben.watson.developer@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/americk0/github-actions-demo/issues"

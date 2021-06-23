@@ -32,7 +32,7 @@ jobs:
           labels: ${{ steps.get-merged-pull-request.outputs.labels }}
 
       - name: Bump both git-tag and package.json version
-        run: npm version ${{ steps.release-label.outputs.level }} -m ${{ steps.get-merged-pull-request.outputs.title }}
+        run: npm version "${{ steps.release-label.outputs.level }}" -m "${{ steps.get-merged-pull-request.outputs.title }}"
 
       - name: Commit back to github
         run: git push --tags

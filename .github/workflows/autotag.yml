@@ -13,7 +13,7 @@ jobs:
       - uses: actions-ecosystem/action-get-merged-pull-request@v1
         id: get-merged-pull-request
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets._GITHUB_TOKEN }}
 
       - uses: actions/setup-node@v2
         with:
@@ -23,7 +23,7 @@ jobs:
         id: release-label
         if: ${{ steps.get-merged-pull-request.outputs.title != null }}
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets._GITHUB_TOKEN }}
           labels: ${{ steps.get-merged-pull-request.outputs.labels }}
 
       - name: Bump both git-tag and package.json version

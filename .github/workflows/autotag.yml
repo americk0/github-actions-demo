@@ -44,15 +44,18 @@ jobs:
 
       - name: update changelog.txt
         run: |
-          echo "★ Release Notes: $(date +%Y-%m-%d) ★\n≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡\n\nThanks for upgrading to the latest version of the ALKS CLI!\n\n${{ steps.get-merged-pull-request.outputs.body }}\n\nHave feedback? https://github.com/Cox-Automotive/ALKS-CLI/issues" > changelog.txt
+          cat << EOF > changelog.txt
+          ★ Release Notes: $(date +%Y-%m-%d) ★
+          ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡
+          
+          Thanks for upgrading to the latest version of the ALKS CLI!
+          
+          ${{ steps.get-merged-pull-request.outputs.body }}
+
+          Have feedback? https://github.com/Cox-Automotive/ALKS-CLI/issues
+          EOF
           git add changelog.txt
           git commit -m 'updates changelog.txt'
-
-      # - name: Commit changelog
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: ${{ github.ref }}
 
       - name: Bump both git-tag and package.json version
         run: npm version "${{ steps.release-label.outputs.level }}" -m "${{ steps.get-merged-pull-request.outputs.title }}"

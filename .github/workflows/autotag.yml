@@ -1,0 +1,36 @@
+name: Tag And Bump Version
+on: 
+  push:
+    branches:
+      - master
+jobs:
+  bump_version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - uses: actions-ecosystem/action-get-merged-pull-request@v1
+        id: get-merged-pull-request
+        with:
+          github_token: ${{ secrets._GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - uses: actions-ecosystem/action-release-label@v1
+        id: release-label
+        if: ${{ steps.get-merged-pull-request.outputs.title != null }}
+        with:
+          github_token: ${{ secrets._GITHUB_TOKEN }}
+          labels: ${{ steps.get-merged-pull-request.outputs.labels }}
+
+      - name: Bump both git-tag and package.json version
+        run: npm version ${{ steps.release-label.outputs.level }} -m ${{ steps.get-merged-pull-request.outputs.title }}
+
+      - name: Commit back to github
+        run: |
+          git config --global user.name 'Ben Watson'
+          git config --global user.email 'americk0@users.noreply.github.com'
+          git push --tags

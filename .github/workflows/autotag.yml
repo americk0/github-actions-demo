@@ -19,6 +19,11 @@ jobs:
         with:
           node-version: 14
 
+      - name: Set github user
+        run: |
+          git config --global user.name 'Ben Watson'
+          git config --global user.email 'americk0@users.noreply.github.com'
+
       - uses: actions-ecosystem/action-release-label@v1
         id: release-label
         if: ${{ steps.get-merged-pull-request.outputs.title != null }}
@@ -30,7 +35,4 @@ jobs:
         run: npm version ${{ steps.release-label.outputs.level }} -m ${{ steps.get-merged-pull-request.outputs.title }}
 
       - name: Commit back to github
-        run: |
-          git config --global user.name 'Ben Watson'
-          git config --global user.email 'americk0@users.noreply.github.com'
-          git push --tags
+        run: git push --tags

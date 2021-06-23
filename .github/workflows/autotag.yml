@@ -33,4 +33,4 @@ jobs:
         run: |
           git config --global user.name 'Ben Watson'
           git config --global user.email 'americk0@users.noreply.github.com'
-          git push origin master --tags
+          git push --tags

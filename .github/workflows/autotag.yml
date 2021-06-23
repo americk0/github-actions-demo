@@ -13,7 +13,7 @@ jobs:
       - uses: actions-ecosystem/action-get-merged-pull-request@v1
         id: get-merged-pull-request
         with:
-          github_token: ${{ secrets._GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-node@v2
         with:
@@ -21,18 +21,25 @@ jobs:
 
       - name: Set github user
         run: |
-          git config --global user.name 'Ben Watson'
-          git config --global user.email 'americk0@users.noreply.github.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
       - uses: actions-ecosystem/action-release-label@v1
         id: release-label
         if: ${{ steps.get-merged-pull-request.outputs.title != null }}
         with:
-          github_token: ${{ secrets._GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           labels: ${{ steps.get-merged-pull-request.outputs.labels }}
 
       - name: Bump both git-tag and package.json version
         run: npm version "${{ steps.release-label.outputs.level }}" -m "${{ steps.get-merged-pull-request.outputs.title }}"
 
-      - name: Commit back to github
-        run: git push --tags
+      - name: Commit & Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          tags: true
+
+      # - name: Commit back to github
+      #   run: git push --tags

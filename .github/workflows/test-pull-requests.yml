@@ -22,4 +22,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           labels: ${{ steps.get-merged-pull-request.outputs.labels }}
       - run: echo ${{ steps.release-label.outputs.level }}
+      - if: ${{ steps.release-label.outputs.level == null }}
+        run: exit 1
 

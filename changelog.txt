@@ -3,9 +3,6 @@
 
 Thanks for upgrading to the latest version of the ALKS CLI!
 
-Thing
-
-* HEllo
-* world
+JHFLKJHSDLKHFLKHJSFLLK
 
 Have feedback? https://github.com/Cox-Automotive/ALKS-CLI/issues

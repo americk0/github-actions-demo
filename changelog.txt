@@ -1,0 +1,7 @@
+★ Release Notes: 2021-06-23 ★\n≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡\n\nThanks for upgrading to the latest version of the ALKS CLI!\n\nDoes things:
+
+* stuff
+* things
+* other stuff
+
+You will like it\n\nHave feedback? https://github.com/Cox-Automotive/ALKS-CLI/issues

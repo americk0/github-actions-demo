@@ -3,6 +3,6 @@
 
 Thanks for upgrading to the latest version of the ALKS CLI!
 
-ttttttt
+does stuff
 
 Have feedback? https://github.com/Cox-Automotive/ALKS-CLI/issues

@@ -60,15 +60,13 @@ jobs:
       - name: Bump both git-tag and package.json version
         run: npm version "${{ steps.release-label.outputs.level }}" -m "${{ steps.get-merged-pull-request.outputs.title }}"
 
-      - name: Force push changes
-        run: git push https://americk0:${{ secrets._GITHUB_TOKEN }}@github.com/americk0/github-actions-demo.git master
-
-      # - name: Commit & Push changes
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets._GITHUB_TOKEN }}
-      #     branch: ${{ github.ref }}
-      #     tags: true
+      - name: Commit & Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          force: true
+          tags: true
 
       - name: Get the latest tag
         id: previoustag

@@ -11,8 +11,8 @@ jobs:
           node-version: 14
       - run: npm ci
       - run: npm test
-      - run: echo ${{ toJSON(github.event.issue.labels.*.name) }}
+      - run: echo ${{ toJSON(github.event.pull_request.labels.*.name) }}
       - name: Verify that a release label exists on the PR
-        if: ${{ ! ( contains(github.event.issue.labels.*.name, 'release/patch') || contains(github.event.issue.labels.*.name, 'release/minor') || contains(github.event.issue.labels.*.name, 'release/major') ) }}
+        if: ${{ ! ( contains(github.event.pull_request.labels.*.name, 'release/patch') || contains(github.event.pull_request.labels.*.name, 'release/minor') || contains(github.event.pull_request.labels.*.name, 'release/major') ) }}
         run: echo "Please label your PR with a release label" && exit 1
 

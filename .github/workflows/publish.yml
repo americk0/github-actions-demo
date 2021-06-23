@@ -1,4 +1,4 @@
-name: GitHub Actions NPM Publish Demo
+name: Publish to NPM
 on: 
   release:
     types:

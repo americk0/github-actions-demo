@@ -18,6 +18,8 @@ jobs:
         id: get-merged-pull-request
         with:
           github_token: ${{ secrets._GITHUB_TOKEN }}
+
+      - run: echo ${{ steps.get-merged-pull-request.outputs.labels }}
     outputs:
       pull_request_labels: ${{ steps.get-merged-pull-request.outputs.labels }}
     
@@ -28,6 +30,8 @@ jobs:
     # set environment
     environment: DoStuff
     steps:
+      - run: echo ${{ needs.get_pull_request.outputs.pull_request_labels }}
+
       - name: Check out repository code
         uses: actions/checkout@v2
         with:

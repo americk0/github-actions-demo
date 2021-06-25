@@ -2,5 +2,5 @@ export function sayHello() {
   return 'hello';
 }
 
-a = 3
+a = 1
 export default sayHello;

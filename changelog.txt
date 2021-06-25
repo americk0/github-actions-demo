@@ -1,8 +1,8 @@
-★ Release Notes: 2021-06-23 ★
+★ Release Notes: 2021-06-25 ★
 ≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡≡
 
 Thanks for upgrading to the latest version of the ALKS CLI!
 
-does stuff
+asdgasdfasdf
 
 Have feedback? https://github.com/Cox-Automotive/ALKS-CLI/issues

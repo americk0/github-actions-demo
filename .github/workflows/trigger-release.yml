@@ -63,6 +63,15 @@ jobs:
       - name: Bump both git-tag and package.json version
         run: npm version "${{ steps.release-label.outputs.level }}" -m "${{ steps.get-merged-pull-request.outputs.title }}"
 
+      - name: Temporarily disable "include administrators" branch protection
+        uses: benjefferies/branch-protection-bot@master
+        if: always()
+        with:
+          access-token: ${{ secrets._GITHUB_TOKEN }}
+          owner: americk0
+          repo: github-actions-demo
+          enforce-admins: false
+
       - name: Commit & Push changes
         uses: ad-m/github-push-action@master
         with:
@@ -70,6 +79,15 @@ jobs:
           branch: ${{ github.ref }}
           force: true
           tags: true
+
+      - name: Enable "include administrators" branch protection
+        uses: benjefferies/branch-protection-bot@master
+        if: always()  # Force to always run this step to ensure "include administrators" is always turned back on
+        with:
+          access-token: ${{ secrets._GITHUB_TOKEN }}
+          owner: americk0
+          repo: github-actions-demo
+          enforce-admins: true
 
       - name: Get the latest tag
         id: previoustag

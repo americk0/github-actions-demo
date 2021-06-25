@@ -12,7 +12,8 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: echo ${{ join(github.event.pull_request.labels.*.name, ', ') }}
+      - run: echo ${{ github.actor }}
       - name: Verify that a release label exists on the PR
-        if: ${{ ! ( contains(github.event.pull_request.labels.*.name, 'release/patch') || contains(github.event.pull_request.labels.*.name, 'release/minor') || contains(github.event.pull_request.labels.*.name, 'release/major') ) }}
+        if: ${{ ! ( contains(github.event.pull_request.labels.*.name, 'release/patch') || contains(github.event.pull_request.labels.*.name, 'release/minor') || contains(github.event.pull_request.labels.*.name, 'release/major') || github.actor == 'github-actions[bot]' ) }}
         run: echo "Please label your PR with a release label" && exit 1
 

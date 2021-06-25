@@ -21,28 +21,22 @@ jobs:
 
       - run: echo ${{ steps.get-merged-pull-request.outputs.labels }}
     outputs:
-      pull_request_labels: ${{ steps.get-merged-pull-request.outputs.labels }}
+      pull_request: ${{ steps.get-merged-pull-request.outputs.labels }}
     
   bump_version:
     runs-on: ubuntu-latest
     needs: get_pull_request
-    if: ${{ ! contains(needs.get_pull_request.outputs.pull_request_labels, 'release/skip') }}
+    if: ${{ ! contains(needs.get_pull_request.outputs.pull_request.labels, 'release/skip') }}
     # set environment
     environment: DoStuff
     steps:
-      - run: echo ${{ needs.get_pull_request.outputs.pull_request_labels }}
+      - run: echo ${{ needs.get_pull_request.outputs.pull_request.labels }}
 
       - name: Check out repository code
         uses: actions/checkout@v2
         with:
           # update all occurrences of github token to use the PAT with repo access
           token: ${{ secrets._GITHUB_TOKEN }}
-
-      - name: Get the PR that this merge came from
-        uses: actions-ecosystem/action-get-merged-pull-request@v1
-        id: get-merged-pull-request
-        with:
-          github_token: ${{ secrets._GITHUB_TOKEN }}
 
       - uses: actions/setup-node@v2
         with:
@@ -57,13 +51,13 @@ jobs:
       - name: Get the release level (major/minor/patch) from the labels
         uses: actions-ecosystem/action-release-label@v1
         id: release-label
-        if: ${{ steps.get-merged-pull-request.outputs.title != null }}
+        if: ${{ needs.get_pull_request.outputs.pull_request.title != null }}
         with:
           github_token: ${{ secrets._GITHUB_TOKEN }}
-          labels: ${{ steps.get-merged-pull-request.outputs.labels }}
+          labels: ${{ needs.get_pull_request.outputs.pull_request.labels }}
 
       - name: skip non-merge pushes
-        if: ${{ steps.get-merged-pull-request.outputs.title == null }}
+        if: ${{ needs.get_pull_request.outputs.pull_request.title == null }}
         run: echo "skipping build since this is not a merge of a pull request" && exit 1
 
       - name: skip merges without a release label
@@ -78,7 +72,7 @@ jobs:
           
           Thanks for upgrading to the latest version of the ALKS CLI!
           
-          ${{ steps.get-merged-pull-request.outputs.body }}
+          ${{ needs.get_pull_request.outputs.pull_request.body }}
 
           Have feedback? https://github.com/Cox-Automotive/ALKS-CLI/issues
           EOF
@@ -86,7 +80,7 @@ jobs:
           git commit -m 'updates changelog.txt'
 
       - name: Bump both git-tag and package.json version
-        run: npm version "${{ steps.release-label.outputs.level }}" -m "${{ steps.get-merged-pull-request.outputs.title }}"
+        run: npm version "${{ steps.release-label.outputs.level }}" -m "${{ needs.get_pull_request.outputs.pull_request.title }}"
 
       # Temporarily disable and reenable enforce administrators
       - name: Temporarily disable "include administrators" branch protection
@@ -127,7 +121,7 @@ jobs:
         with:
           tag_name: ${{ steps.previoustag.outputs.tag }}
           release_name: ${{ steps.previoustag.outputs.tag }}
-          body: ${{ steps.get-merged-pull-request.outputs.body }}
+          body: ${{ needs.get_pull_request.outputs.pull_request.body }}
 
       - name: Install Script Dependencies
         run: npm install

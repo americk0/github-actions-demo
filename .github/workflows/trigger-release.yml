@@ -6,6 +6,8 @@ on:
 jobs:
   get_pull_request:
     runs-on: ubuntu-latest
+    environment: DoStuff
+    steps:
       - name: Check out repository code
         uses: actions/checkout@v2
         with:

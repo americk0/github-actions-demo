@@ -9,12 +9,14 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets._GITHUB_TOKEN }}
 
       - name: Get the PR that this merge came from
         uses: actions-ecosystem/action-get-merged-pull-request@v1
         id: get-merged-pull-request
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets._GITHUB_TOKEN }}
 
       - uses: actions/setup-node@v2
         with:
@@ -31,7 +33,7 @@ jobs:
         id: release-label
         if: ${{ steps.get-merged-pull-request.outputs.title != null }}
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets._GITHUB_TOKEN }}
           labels: ${{ steps.get-merged-pull-request.outputs.labels }}
 
       - name: skip non-merge pushes
@@ -63,7 +65,7 @@ jobs:
       - name: Commit & Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets._GITHUB_TOKEN }}
           branch: ${{ github.ref }}
           force: true
           tags: true
@@ -76,7 +78,7 @@ jobs:
 
       - uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets._GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.previoustag.outputs.tag }}
           release_name: ${{ steps.previoustag.outputs.tag }}

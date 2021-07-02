@@ -1,0 +1,17 @@
+name: Test Changes
+on: pull_request
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Check out master branch
+        uses: actions/checkout@v2
+        with:
+          ref: master
+          path: ./masterbranch
+      - name: Verify that index.js has been updated
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'release/patch') || contains(github.event.pull_request.labels.*.name, 'release/minor') || contains(github.event.pull_request.labels.*.name, 'release/major') }}
+        run: cmp --silent <(tail -n+2 index.js) <(tail -n+2 ./masterbranch/index.js) && { echo "please update index.js" && exit 1 ; }
+

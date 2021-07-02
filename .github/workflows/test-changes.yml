@@ -13,5 +13,5 @@ jobs:
           path: ./masterbranch
       - name: Verify that index.js has been updated
         if: ${{ contains(github.event.pull_request.labels.*.name, 'release/patch') || contains(github.event.pull_request.labels.*.name, 'release/minor') || contains(github.event.pull_request.labels.*.name, 'release/major') }}
-        run: cmp --silent <(tail -n+2 index.js) <(tail -n+2 ./masterbranch/index.js) || { echo "please update index.js" && exit 1 ; }
+        run: cmp --silent <(tail -n+2 index.js) <(tail -n+2 ./masterbranch/index.js) && { echo "please update index.js" && exit 1 ; }
 
